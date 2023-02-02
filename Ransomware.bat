@@ -238,6 +238,9 @@ for /l %%x in (1, 1, 100) do (
    :: pause for 1 second every [counter] loops
  
    set /a "remainder=RS_RefreshCounter %% 30"
+
+	@echo Checkpoint 1
+
    	if %remainder% equ 0 (
 		timeout /t 1 /nobreak > nul
 		if "%RS_Devmode%"=="true" @echo Pausing
