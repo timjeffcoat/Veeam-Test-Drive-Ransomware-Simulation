@@ -181,7 +181,7 @@ if "%RS_Devmode%"=="true" @echo Counter is %BackgroundHistoryPathCounter%
 if "%RS_OldBackground%"=="%RS_Background%" (
        	set /a "BackgroundHistoryPathCounter=BackgroundHistoryPathCounter+1"
 	if "%RS_Devmode%"=="true" @echo counter incremented is %BackgroundHistoryPathCounter%
-       	if %BackgroundHistoryPathCounter% lss 5 goto:BACKGROUNDSEARCH
+    if %BackgroundHistoryPathCounter% lss 5 goto:BACKGROUNDSEARCH
 )
 
 @echo %RS_OldBackground% > %RS_WorkingDirectory%\OldBackgroundPath.txt
@@ -233,8 +233,10 @@ for /l %%x in (1, 1, 100) do (
    %SystemRoot%\System32\RUNDLL32.EXE USER32.DLL,UpdatePerUserSystemParameters
    %SystemRoot%\System32\RUNDLL32.EXE USER32.DLL ,UpdatePerUserSystemParameters 1 ,True
 
-   :: pause for 1 second every [counter] loops
    set /a "RS_RefreshCounter=%%x"
+
+   :: pause for 1 second every [counter] loops
+ 
    set /a "remainder=RS_RefreshCounter %% 30"
    	if %remainder% equ 0 (
 		timeout /t 1 /nobreak > nul
