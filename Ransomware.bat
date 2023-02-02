@@ -224,26 +224,24 @@ if "%RS_Devmode%"=="true" (
 
 if "%RS_Devmode%"=="true" @echo Attempting to refresh desktop background
 
-for /l %%x in (1, 1, 100) do (
+Set remainder=0
 
-   
-   if "%RS_Devmode%"=="true" if temp equ 0 @echo Refresh attempt %%x
-   :: nither of these commands seem to be particularly reliable, and experimentation hasn't helped determine which one to use.
-   :: so let's just use both!
+setlocal EnableDelayedExpansion
+
+for /l %%x in (1, 1, 80) do (
+
+   set /a RS_RefreshCounter = %%x
+
    %SystemRoot%\System32\RUNDLL32.EXE USER32.DLL,UpdatePerUserSystemParameters
    %SystemRoot%\System32\RUNDLL32.EXE USER32.DLL ,UpdatePerUserSystemParameters 1 ,True
-
-   set /a "RS_RefreshCounter=%%x"
-
-   :: pause for 1 second every [counter] loops
- 
-   set /a "remainder=RS_RefreshCounter %% 30"
-
-	@echo Checkpoint 1
-
-   	if %remainder% equ 0 (
-		timeout /t 1 /nobreak > nul
+  
+   set /a remainder = RS_RefreshCounter %% 20
+	
+	if "%RS_Devmode%"=="true" @echo Refresh attempt !RS_RefreshCounter!, remainder is !remainder!
+	
+   	if !remainder! equ 0 (
 		if "%RS_Devmode%"=="true" @echo Pausing
+		timeout /t 1 /nobreak > nul
 	)
 )
 
